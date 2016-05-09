@@ -1,0 +1,17 @@
+commands:
+  optipng: optipng
+  jpegoptim: jpegoptim
+  gifsicle: gifsicle
+
+parameters:
+  optipng: -force -o7 '{file}'
+  jpegoptim: -f --strip-all '{file}'
+  gifsicle: -w -O2 '{file}' > '{output_file}'
+
+pipelines:
+  png:
+    - optipng
+  jpeg:
+    - jpegoptim
+  gif:
+    - gifsicle

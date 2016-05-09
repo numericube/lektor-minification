@@ -16,31 +16,34 @@ __author__ = ""
 __copyright__ = "Copyright 2016, NumeriCube"
 __credits__ = ["Pierre-Julien Grizel", ]
 __license__ = "GNU GPLv3"
-__version__ = "1.0"
+__version__ = "1.1"
 __maintainer__ = "Pierre-Julien Grizel"
 __email__ = "pjgrizel@numericube.com"
 __status__ = "Production"
 
 import shutil
 import imghdr
-import subprocess
-import os.path
+from os.path import abspath, dirname, join
 
-# PIL stuff
-# from PIL import Image
+import pyimagediet
 
 # Lektor stuff
 from lektor.pluginsystem import Plugin
-from lektor.sourceobj import VirtualSourceObject
 from lektor.build_programs import FileAssetBuildProgram
-# from lektor.utils import build_url
-from lektor.assets import File, Directory
+from lektor.assets import File
+
+# Load and parse the pyimagediet configuration
+THIS_DIR = abspath(dirname(__file__))
+config = pyimagediet.read_yaml_configuration(join(THIS_DIR, 'config.yml'))
+try:
+    config = pyimagediet.parse_configuration(config)
+except pyimagediet.ConfigurationErrorDietException, e:
+    raise Exception(e.msg)
 
 class MinificationPlugin(Plugin):
     """The main plugin class"""
     name = 'Minification'
     description = 'A plugin that compresses images on-the-fly when building site.'
-
 
     def on_setup_env(self, **extra):
         """Register our build program for File objects.
@@ -55,31 +58,19 @@ class ImageBuildProgram(FileAssetBuildProgram):
     def build_artifact(self, artifact):
         """This method is invoked for previously declared artifacts and is supposed to write out the artifact. It's only invoked if the builder decided that the artifact is outdated based on the information at hand.
         """
-        # Check image file type
-        # Default/fallback behaviour is to copy file to the dest directory 'as is'.
+
+        # Let Lektor try to copy the file, which is necessary if the file isn't an image
+        super(ImageBuildProgram, self).build_artifact(artifact)
+
+        # Optimize the artifact file if we're sure that it's an image
         img_type = imghdr.what(self.source.source_filename)
-        if img_type == 'png':
-            parameters = {
-                "destination":      artifact.dst_filename,
-                "source":           self.source.source_filename,
-                "command":          "optipng",
-                "optimization":     "",
-            }
-            artifact.ensure_dir()
-            subprocess.check_call("""%(command)s %(optimization)s -out "%(destination)s" -- "%(source)s" """ % parameters, shell=True)
+        if img_type in ('png', 'jpeg', 'gif'):
 
-        elif img_type == 'jpeg':
-            parameters = {
-                "destination":      os.path.dirname(artifact.dst_filename),
-                "source":           self.source.source_filename,
-                "command":          "jpegoptim",
-                "optimization":     "",
-            }
-            artifact.ensure_dir()
-            subprocess.check_call("""%(command)s %(optimization)s -d "%(destination)s" -- "%(source)s" """ % parameters, shell=True)
+            # Copy the artifact file to its destination
+            shutil.copyfile(self.source.source_filename, artifact.dst_filename)
 
-        else:
-            super(ImageBuildProgram, self).build_artifact(artifact)
-
-
-
+            # Perform the optimization
+            try:
+                pyimagediet.diet(artifact.dst_filename, config)
+            except pyimagediet.CompressFileDietException, e:
+                raise Exception(e.msg)

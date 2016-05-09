@@ -6,7 +6,7 @@ A simple [Lektor](https://www.getlektor.com/) plugin to minify images at build t
 
 Some packages have to be installed beforehand the plugin installation.
 
-	$ sudo apt-get install -y optipng jpegoptim libjpeg8-dev zlib1g-dev
+	$ sudo apt-get install -y optipng jpegoptim libjpeg8-dev zlib1g-dev gifsicle
 
 ## Installation
 
@@ -18,7 +18,7 @@ But you could also add the plugin to your `.lektorproject` file, so it'll be aut
 
 ```ini
 [packages]
-lektor-minification = 1.0
+lektor-minification = 1.1
 ```
 
 ## How to use
