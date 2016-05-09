@@ -6,7 +6,13 @@ A simple [Lektor](https://www.getlektor.com/) plugin to minify images at build t
 
 Some packages have to be installed beforehand the plugin installation.
 
+**Linux :**
+
 	$ sudo apt-get install -y optipng jpegoptim libjpeg8-dev zlib1g-dev gifsicle
+
+**OS X :**
+
+	$ brew install optipng jpegoptim gifsicle
 
 ## Installation
 
