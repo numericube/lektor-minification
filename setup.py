@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='lektor-minification',
     description='A simple Lektor plugin to minify images at build time.',
-    version='1.1',
+    version='1.1.1',
     author=u'Pierre-Julien Grizel',
     author_email='pjgrizel@numericube.com',
     url='https://github.com/numericube/lektor-minification',
@@ -18,6 +18,7 @@ setup(
     install_requires=[
         'Lektor',
         'Pillow',
+        'pyimagediet'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',

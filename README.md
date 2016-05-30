@@ -12,7 +12,7 @@ Some packages have to be installed beforehand the plugin installation.
 
 **OS X :**
 
-	$ brew install optipng jpegoptim gifsicle
+	$ brew install optipng jpegoptim gifsicle libmagic
 
 ## Installation
 
@@ -24,7 +24,7 @@ But you could also add the plugin to your `.lektorproject` file, so it'll be aut
 
 ```ini
 [packages]
-lektor-minification = 1.1
+lektor-minification = 1.1.1
 ```
 
 ## How to use
@@ -32,6 +32,12 @@ lektor-minification = 1.1
 There's nothing more to do ! The plugin will optimize on-the-fly all the PNG and JPEG images each time that you're building your project :
 
 	$ lektor build
+
+## Configuration
+
+You can edit the `config.yml` file to tweak the optimization tools and their options, as explained in the [pyimagediet documentation](http://pyimagediet.readthedocs.io/en/latest/configure.html).
+
+Just be sure to always keep something to execute for each file type (png, jpeg and gif) or the build process could crash.
 
 ## Support
 
