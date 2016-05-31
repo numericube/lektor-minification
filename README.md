@@ -24,7 +24,7 @@ But you could also add the plugin to your `.lektorproject` file, so it'll be aut
 
 ```ini
 [packages]
-lektor-minification = 1.1.1
+lektor-minification = 1.1.2
 ```
 
 ## How to use
