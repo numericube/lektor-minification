@@ -3,13 +3,14 @@ from setuptools import setup
 setup(
     name='lektor-minification',
     description='A simple Lektor plugin to minify images at build time.',
-    version='1.1.2',
+    version='1.1.3',
     author=u'Pierre-Julien Grizel',
     author_email='pjgrizel@numericube.com',
     url='https://github.com/numericube/lektor-minification',
     license='GNU GPLv3',
     platforms='any',
     py_modules=['lektor_minification'],
+    package_data={'': ['config.yml']},
     entry_points={
         'lektor.plugins': [
             'minification = lektor_minification:MinificationPlugin',
