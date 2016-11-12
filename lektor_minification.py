@@ -23,7 +23,7 @@ __status__ = "Production"
 
 import shutil
 import imghdr
-from os.path import abspath, dirname, join
+from os.path import abspath, dirname, join, isfile
 
 import pyimagediet
 
@@ -31,10 +31,16 @@ import pyimagediet
 from lektor.pluginsystem import Plugin
 from lektor.build_programs import FileAssetBuildProgram
 from lektor.assets import File
+from lektor.project import Project
 
 # Load and parse the pyimagediet configuration
-THIS_DIR = abspath(dirname(__file__))
-config = pyimagediet.read_yaml_configuration(join(THIS_DIR, 'config.yml'))
+config_filename = abspath(join(Project.discover().project_path, '..', 'configs', 'minification.yml'))
+
+if not isfile(config_filename):
+    raise Exception("Unable to read lektor-minification configuration file from '%s'. Please copy from '%s'."%((config_filename, join(abspath(dirname(__file__)), 'minification.yml'))))
+
+config = pyimagediet.read_yaml_configuration(config_filename)
+
 try:
     config = pyimagediet.parse_configuration(config)
 except pyimagediet.ConfigurationErrorDietException, e:

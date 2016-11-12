@@ -24,8 +24,14 @@ But you could also add the plugin to your `.lektorproject` file, so it'll be aut
 
 ```ini
 [packages]
-lektor-minification = 1.1.3
+lektor-minification = 1.1.4
 ```
+
+### Configuration file
+
+Copy the `minification.yml` configuration file from the plugin source directory to your project's `configs` folder.
+
+If you don't you will get an Exception at first launch.
 
 ## How to use
 
@@ -35,13 +41,13 @@ There's nothing more to do ! The plugin will optimize on-the-fly all the PNG and
 
 ## Configuration
 
-You can edit the `config.yml` file to tweak the optimization tools and their options, as explained in the [pyimagediet documentation](http://pyimagediet.readthedocs.io/en/latest/configure.html).
+You can edit the `minification.yml` file to tweak the optimization tools and their options, as explained in the [pyimagediet documentation](http://pyimagediet.readthedocs.io/en/latest/configure.html).
 
 Just be sure to always keep something to execute for each file type (png, jpeg and gif) or the build process could crash.
 
 ## Support
 
-This plugin is provided as-is by [NumeriCube](http://numericube.com), a human-sized Paris-based company prodiving tailored services to smart customers. 
+This plugin is provided as-is by [NumeriCube](http://numericube.com), a human-sized Paris-based company prodiving tailored services to smart customers.
 
 We'd be happy to try to help you with this plugin if needed. In that case, just file an issue on the [GitHub tracker](https://github.com/numericube/lektor-minification/issues).
 
